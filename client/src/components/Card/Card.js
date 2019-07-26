@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import actions from "../../actions";
 import "./Card.css";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
@@ -157,10 +158,11 @@ const RecipeReviewCard = props => {
     setOpen(false);
   }
 
+  console.log(actions);
   return (
-    <Container>
+    <Container >
       <Card className={classes.card} id="card">
-        <CardHeader
+        <CardHeader onClick={()=>props.login({name: "Osei"})}
           avatar={
             <Avatar aria-label="Recipe" className={classes.avatar}>
               <img alt={props.artistName} src={props.artistImage} />
@@ -174,7 +176,7 @@ const RecipeReviewCard = props => {
           title={props.songTitle}
           subheader={props.artistName}
         />
-        <CardMedia
+        <CardMedia onClick={()=>props.logout()}
           className={classes.media}
           image={props.albumCover}
           title={props.songTitle}
@@ -232,4 +234,4 @@ export default connect(function(state){
   return {
     name: state.users.name
   };
-})(RecipeReviewCard);
+}, actions)(RecipeReviewCard);
