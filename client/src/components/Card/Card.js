@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { getRandomDog } from "../../store";
 import { connect } from "react-redux";
 import actions from "../../actions";
 import "./Card.css";
@@ -158,11 +159,21 @@ const RecipeReviewCard = props => {
     setOpen(false);
   }
 
-  console.log(actions);
+  console.log(getRandomDog);
+  window.getRandomDog = getRandomDog;
+  window.dispatch = props.dispatch;
+
+  if(props.dog.loading) {
+    return <div>Loading</div>;
+  }
+  if(props.dog.data && props.dog.data.message){
+    return <img onClick={()=>props.getRandomDog()} src={props.dog.data.message}/>;
+  }
+
   return (
     <Container >
       <Card className={classes.card} id="card">
-        <CardHeader onClick={()=>props.login({name: "Osei"})}
+        <CardHeader onClick={()=>props.getRandomDog()}
           avatar={
             <Avatar aria-label="Recipe" className={classes.avatar}>
               <img alt={props.artistName} src={props.artistImage} />
@@ -230,8 +241,16 @@ const RecipeReviewCard = props => {
   );
 };
 
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getRandomDog: getRandomDog.action(dispatch)   
+  };
+};
+
 export default connect(function(state){
   return {
-    name: state.users.name
+    name: state.users.name,
+    dog: state.dog
   };
-}, actions)(RecipeReviewCard);
+}, mapDispatchToProps)(RecipeReviewCard);

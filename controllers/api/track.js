@@ -2,6 +2,7 @@ const router = require("express").Router();
 var db = require("../../models");
 
 router.get("/", function (req, res) {
+  return res.json({ test: 'test'});
 });
 
 
@@ -10,11 +11,8 @@ router.get("/tracks", function (req, res) {
     include: [db.User],
     order: [["track_artist", "ASC"]]
   })
-    .then(function (dbTrack) {
-      var tObject = {
-        track: dbTrack
-      };
-      return res.render("index", tObject);
+    .then(function (dbTrack) {  
+      return res.json(dbTrack);
     });
 });
 

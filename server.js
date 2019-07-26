@@ -12,6 +12,15 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
 // Add routes, both API and view
+app.get("/tracks", function (req, res) {
+  db.Track.findAll({
+    include: [db.User],
+    order: [["track_artist", "ASC"]]
+  })
+    .then(function (dbTrack) {  
+      return res.json(dbTrack);
+    });
+});
 app.use(routes);
 
 // Start the API server
