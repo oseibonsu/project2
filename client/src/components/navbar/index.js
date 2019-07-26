@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -99,7 +100,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function PrimarySearchAppBar(props) {
+function PrimarySearchAppBar(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -191,7 +192,7 @@ export default function PrimarySearchAppBar(props) {
       <AppBar position="static">
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
-            JamTunes
+            JamTunes  {props.name}
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -228,3 +229,9 @@ export default function PrimarySearchAppBar(props) {
     </div>
   );
 }
+
+export default connect(function(state){
+  return {
+    name: state.users.name
+  };
+})(PrimarySearchAppBar);

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import "./Card.css";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
@@ -178,6 +179,7 @@ const RecipeReviewCard = props => {
           image={props.albumCover}
           title={props.songTitle}
         />
+        {props.name}
         {/* <CardContent> */}
         {/* <Typography variant="body2" color="textSecondary" component="p">
           This impressive paella is a perfect party dish and a fun meal to cook together with your
@@ -226,4 +228,8 @@ const RecipeReviewCard = props => {
   );
 };
 
-export default RecipeReviewCard;
+export default connect(function(state){
+  return {
+    name: state.users.name
+  };
+})(RecipeReviewCard);
